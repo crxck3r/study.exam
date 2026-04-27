@@ -7,24 +7,16 @@
     <style>
         :root { --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --accent: #38bdf8; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        
-        /* Navbar */
         nav { width: 100%; padding: 20px; background: var(--card); text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
         h1 { margin: 0; font-size: 1.5rem; color: var(--accent); }
-
-        /* Search Bar */
-        #search { margin: 20px; padding: 12px; width: 80%; max-width: 500px; border-radius: 8px; border: none; background: var(--card); color: white; }
-
-        /* Game Grid */
+        #search { margin: 20px; padding: 12px; width: 80%; max-width: 500px; border-radius: 8px; border: none; background: var(--card); color: white; border: 1px solid #334155; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; width: 90%; max-width: 1200px; padding-bottom: 50px; }
-        .card { background: var(--card); padding: 10px; border-radius: 12px; text-align: center; cursor: pointer; transition: transform 0.2s; border: 1px solid transparent; }
+        .card { background: var(--card); padding: 15px; border-radius: 12px; text-align: center; cursor: pointer; transition: transform 0.2s; border: 1px solid transparent; }
         .card:hover { transform: translateY(-5px); border-color: var(--accent); }
         .card img { width: 100%; border-radius: 8px; margin-bottom: 8px; background: #334155; aspect-ratio: 1/1; object-fit: cover; }
-
-        /* Fullscreen Player */
         #player-container { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 100; }
         iframe { width: 100%; height: 100%; border: none; }
-        .close-btn { position: absolute; top: 10px; right: 20px; background: red; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 5px; font-weight: bold; }
+        .close-btn { position: absolute; top: 10px; right: 20px; background: #ef4444; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 5px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -33,9 +25,7 @@
 
 <input type="text" id="search" placeholder="Search for a topic..." onkeyup="filterGames()">
 
-<div class="grid" id="gameGrid">
-    <!-- Games will be generated here automatically -->
-</div>
+<div class="grid" id="gameGrid"></div>
 
 <div id="player-container">
     <button class="close-btn" onclick="closeGame()">CLOSE [X]</button>
@@ -43,88 +33,15 @@
 </div>
 
 <script>
-    // THE GAME LIST (Add your 80+ games here)
     const games = [
-        { name: "Snow Rider 3D", url: "https://snowrider3d.com", img: "https://googleusercontent.com" },
-        { name: "Cheese Chompers 3D", url: "https://github.io", img: "" },
-        { name: "Crazy Cattle 3D", url: "https://github.io", img: "" },
-        { name: "Slope", url: "https://kdata1.com", img: "" },
-        { name: "Retro Bowl", url: "https://konggames.com", img: "" },
-        { name: "1v1.LOL", url: "https://1v1.lol", img: "" },
-        { name: "Tunnel Rush", url: "https://poki.com", img: "" },
-        { name: "Monkey Mart", url: "https://monkeymart.org", img: "" },
-        { name: "Cookie Clicker", url: "https://dashnet.org", img: "" },
-        { name: "Basket Random", url: "https://github.io", img: "" },
-        { name: "Moto X3M", url: "https://motox3m.org", img: "" },
-        { name: "Drift Hunters", url: "https://drifthunters.online", img: "" },
-        { name: "Bitlife", url: "https://github.io", img: "" },
-        { name: "Tiny Fishing", url: "https://github.io", img: "" },
-        { name: "Eggy Car", url: "https://github.io", img: "" },
-        { name: "Stickman Hook", url: "https://github.io", img: "" },
-        { name: "Soccer Random", url: "https://github.io", img: "" },
-        { name: "Run 3", url: "https://run3.io", img: "" },
-        { name: "Papa's Freezeria", url: "https://github.io", img: "" },
-        { name: "Getaway Shootout", url: "https://github.io", img: "" },
-        { name: "Drive Mad", url: "https://github.io", img: "" },
-        { name: "EvoWorld.io", url: "https://evoworld.io", img: "" },
-        { name: "Smash Karts", url: "https://smashkarts.io", img: "" },
-        { name: "Shell Shockers", url: "https://shellshock.io", img: "" },
-        { name: "Subway Surfers", url: "https://github.io", img: "" },
-        { name: "Geometry Dash", url: "https://github.io", img: "" },
-        { name: "Among Us Online", url: "https://github.io", img: "" },
-        { name: "Minecraft Classic", url: "https://minecraft.net", img: "" },
-        { name: "Tetris", url: "https://tetris.com", img: "" },
-        { name: "Pac-Man", url: "https://pacman.com", img: "" },
-        { name: "2048", url: "https://play2048.co", img: "" },
-        { name: "Doodle Jump", url: "https://github.io", img: "" },
-        { name: "Happy Wheels", url: "https://totaljerkface.com", img: "" },
-        { name: "OVO", url: "https://github.io", img: "" },
-        { name: "Drift Boss", url: "https://github.io", img: "" },
-        { name: "Idle Breakout", url: "https://github.io", img: "" },
-        { name: "Cluster Rush", url: "https://github.io", img: "" },
-        { name: "Rooftop Snipers", url: "https://github.io", img: "" },
-        { name: "Funny Shooter 2", url: "https://github.io", img: "" },
-        { name: "Crossy Road", url: "https://github.io", img: "" },
-        { name: "G-Switch 3", url: "https://github.io", img: "" },
-        { name: "Color Tunnel", url: "https://github.io", img: "" },
-        { name: "Paper.io 2", url: "https://paper-io.com", img: "" },
-        { name: "Hole.io", url: "https://hole-io.com", img: "" },
-        { name: "Slither.io", url: "http://slither.io", img: "" },
-        { name: "Akinator", url: "https://akinator.com", img: "" },
-        { name: "Wordle", url: "https://nytimes.com", img: "" },
-        { name: "Chess.com", url: "https://chess.com", img: "" },
-        { name: "Slope 2", url: "https://github.io", img: "" },
-        { name: "Friday Night Funkin", url: "https://github.io", img: "" },
-        { name: "Krunker", url: "https://krunker.io", img: "" },
-        { name: "Zombs Royale", url: "https://zombsroyale.io", img: "" },
-        { name: "Diep.io", url: "https://diep.io", img: "" },
-        { name: "Agar.io", url: "https://agar.io", img: "" },
-        { name: "Wings.io", url: "https://wings.io", img: "" },
-        { name: "Brutal.io", url: "https://brutal.io", img: "" },
-        { name: "Skibidi Toilet", url: "https://github.io", img: "" },
-        { name: "Super Mario 64", url: "https://github.io", img: "" },
-        { name: "Pokemon Emerald", url: "https://github.io", img: "" },
-        { name: "Sonic the Hedgehog", url: "https://github.io", img: "" },
-        { name: "Doom", url: "https://github.io", img: "" },
-        { name: "Quake", url: "https://github.io", img: "" },
-        { name: "Street Fighter II", url: "https://github.io", img: "" },
-        { name: "Mortal Kombat", url: "https://github.io", img: "" },
-        { name: "Duck Life 4", url: "https://github.io", img: "" },
-        { name: "Fireboy and Watergirl", url: "https://github.io", img: "" },
-        { name: "Temple Run 2", url: "https://github.io", img: "" },
-        { name: "Jetpack Joyride", url: "https://github.io", img: "" },
-        { name: "Bad Ice Cream", url: "https://github.io", img: "" },
-        { name: "Boxing Random", url: "https://github.io", img: "" },
-        { name: "Volley Random", url: "https://github.io", img: "" },
-        { name: "Madalin Stunt Cars 2", url: "https://github.io", img: "" },
-        { name: "Vex 7", url: "https://github.io", img: "" },
-        { name: "Vex 6", url: "https://github.io", img: "" },
-        { name: "Cut the Rope", url: "https://github.io", img: "" },
-        { name: "Plants vs Zombies", url: "https://github.io", img: "" },
-        { name: "Bloons TD 4", url: "https://github.io", img: "" },
-        { name: "World's Hardest Game", url: "https://github.io", img: "" },
-        { name: "Granny", url: "https://github.io", img: "" },
-        { name: "Baldi's Basics", url: "https://github.io", img: "" }
+        { name: "Snow Rider 3D", url: "https://snowrider3d.com", img: "https://placeholder.com" },
+        { name: "Cheese Chompers 3D", url: "https://github.io", img: "https://placeholder.com" },
+        { name: "Crazy Cattle 3D", url: "https://github.io", img: "https://placeholder.com" },
+        { name: "Slope", url: "https://kdata1.com", img: "https://placeholder.com" },
+        { name: "Retro Bowl", url: "https://konggames.com", img: "https://placeholder.com" },
+        { name: "Monkey Mart", url: "https://monkeymart.org", img: "https://placeholder.com" },
+        { name: "Cookie Clicker", url: "https://dashnet.org", img: "https://placeholder.com" },
+        { name: "1v1.LOL", url: "https://1v1.lol", img: "https://placeholder.com" }
     ];
 
     const grid = document.getElementById('gameGrid');
@@ -134,10 +51,10 @@
         games.forEach(game => {
             const card = document.createElement('div');
             card.className = 'card';
-                        card.onclick = () => openGame(game.url);
+            card.onclick = () => openGame(game.url);
             card.innerHTML = `
-                <img src="${game.img || 'https://placeholder.com'}" alt="${game.name}">
-                <div>${game.name}</div>
+                <img src="${game.img}" alt="${game.name}">
+                <div style="font-weight: bold; margin-top: 5px;">${game.name}</div>
             `;
             grid.appendChild(card);
         });
@@ -156,11 +73,11 @@
     function filterGames() {
         let input = document.getElementById('search').value.toLowerCase();
         let cards = document.getElementsByClassName('card');
-        for (i = 0; i < cards.length; i++) { 
+        for (let i = 0; i < cards.length; i++) { 
             if (!cards[i].innerText.toLowerCase().includes(input)) {
-                cards[i].style.display="none";
+                cards[i].style.display = "none";
             } else {
-                cards[i].style.display="block";                 
+                cards[i].style.display = "block";                 
             }
         }
     }
