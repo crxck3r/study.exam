@@ -115,7 +115,7 @@
         { name: "Jetpack Joyride", url: "https://github.io", img: "" },
         { name: "Bad Ice Cream", url: "https://github.io", img: "" },
         { name: "Boxing Random", url: "https://github.io", img: "" },
-        | name: "Volley Random", url: "https://github.io", img: "" },
+        { name: "Volley Random", url: "https://github.io", img: "" },
         { name: "Madalin Stunt Cars 2", url: "https://github.io", img: "" },
         { name: "Vex 7", url: "https://github.io", img: "" },
         { name: "Vex 6", url: "https://github.io", img: "" },
@@ -134,7 +134,7 @@
         games.forEach(game => {
             const card = document.createElement('div');
             card.className = 'card';
-            card.onclick = () => openGame(game.url);
+                        card.onclick = () => openGame(game.url);
             card.innerHTML = `
                 <img src="${game.img || 'https://placeholder.com'}" alt="${game.name}">
                 <div>${game.name}</div>
